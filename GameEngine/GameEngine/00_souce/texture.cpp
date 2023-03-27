@@ -1,65 +1,60 @@
-//==========================================
+//==========================================================
 //
-//  テクスチャ管理用ファイル(texture.cpp)
-//  Author : Tomoya Kanazaki
+//テクスチャ処理 [texture.cpp]
+//Author Ibuki Okusada
 //
-//==========================================
+//==========================================================
 #include "texture.h"
+#include "fileload.h"
 
-//==========================================
-//  テクスチャファイル一覧
-//==========================================
-const char *c_pTextureFilePass[TEXTURE_MAX] =
-{
-	"data/TEXTURE/effect_000.jpg", //エフェクトでデフォルトに使うテクスチャ
-	"data/TEXTURE/effect_001.jpg", //エフェクトに使う四角のテクスチャ
-}; //テクスチャパス
+//==========================================================
+//グローバル変数
+//==========================================================
+LPDIRECT3DTEXTURE9 g_apTexture[MAX_TEXTUREFILE] = {};			//テクスチャへのポインタ配列
 
-//==========================================
-//  グローバル変数宣言
-//==========================================
-LPDIRECT3DTEXTURE9 g_pTexture[TEXTURE_MAX] = {};
-
-//==========================================
-//  初期化処理
-//==========================================
-void InitTexture()
+//==========================================================
+//テクスチャ初期化処理
+//==========================================================
+void InitTexture(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();	//デバイスへのポインタ
 
 	//テクスチャの読み込み
-	for (int nCnt = 0; nCnt < TEXTURE_MAX; nCnt++)
+	for (int nCntTexture = 0; nCntTexture < GetTextureCnt(); nCntTexture++)
 	{
-		D3DXCreateTextureFromFile
-		(
-			pDevice,
-			c_pTextureFilePass[nCnt],
-			&g_pTexture[nCnt]
-		);
+		D3DXCreateTextureFromFile(pDevice, pTextureFileName(nCntTexture), &g_apTexture[nCntTexture]);
 	}
 }
 
-//==========================================
-//  終了処理
-//==========================================
-void UninitTexture()
+//==========================================================
+//テクスチャ終了処理
+//==========================================================
+void UninitTexture(void)
 {
-	//テクスチャの破棄
-	for (int nCnt = 0; nCnt < TEXTURE_MAX; nCnt++)
+	//テクスチャの廃棄
+	for (int nCntTexture = 0; nCntTexture < MAX_TEXTUREFILE; nCntTexture++)
 	{
-		if (g_pTexture[nCnt] != NULL)
-		{
-			g_pTexture[nCnt]->Release();
-			g_pTexture[nCnt] = NULL;
+		if (g_apTexture[nCntTexture] != NULL)
+		{//テクスチャデータが存在している場合
+			g_apTexture[nCntTexture]->Release();
+			g_apTexture[nCntTexture] = NULL;
 		}
 	}
 }
 
-//==========================================
-//  テクスチャの取得
-//==========================================
-LPDIRECT3DTEXTURE9 GetTexture(int TextureLabel)
+//==========================================================
+//テクスチャ更新処理
+//==========================================================
+void UpdateTexture(void)
 {
-	return g_pTexture[TextureLabel];
+
+}
+
+//==========================================================
+//指定されたテクスチャ情報を渡す
+//==========================================================
+LPDIRECT3DTEXTURE9 *SetTexture(int nIdx)
+{
+	return &g_apTexture[nIdx];
 }
