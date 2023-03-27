@@ -208,7 +208,7 @@ void CreateSystemWindow()
 	}
 
 	//セーブボタンを表示
-	if (ImGui::CollapsingHeader(u8"SaveSystem"))
+	if (ImGui::CollapsingHeader(u8"SaveSystem ( 藤田 )"))
 	{
 		SaveSystem();
 	}
