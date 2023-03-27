@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="00_souce\camera.cpp" />
+    <ClCompile Include="00_souce\fileload.cpp" />
     <ClCompile Include="00_souce\light.cpp" />
     <ClCompile Include="00_souce\main.cpp" />
     <ClCompile Include="00_souce\polygon.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="01_header\camera.h" />
+    <ClInclude Include="01_header\fileload.h" />
     <ClInclude Include="01_header\light.h" />
     <ClInclude Include="01_header\main.h" />
     <ClInclude Include="01_header\polygon.h" />

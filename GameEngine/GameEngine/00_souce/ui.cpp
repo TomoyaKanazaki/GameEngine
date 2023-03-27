@@ -35,13 +35,13 @@ typedef enum
 //==========================================
 const char *c_apSaveFilePass[SAVE_MAX] =
 {
-	"00_data/01_BIN/00_Save_All.bin",
-	"00_data/01_BIN/01_Save_Map.bin",
-	"00_data/01_BIN/02_Save_Collision.bin",
-	"00_data/01_BIN/03_Save_2DUI.bin",
-	"00_data/01_BIN/04_Save_Light.bin",
-	"00_data/01_BIN/05_Save_Draw.bin",
-	"00_data/01_BIN/06_Save_Particle.bin"
+	"02_data/01_BIN/00_Save_All.bin",
+	"02_data/01_BIN/01_Save_Map.bin",
+	"02_data/01_BIN/02_Save_Collision.bin",
+	"02_data/01_BIN/03_Save_2DUI.bin",
+	"02_data/01_BIN/04_Save_Light.bin",
+	"02_data/01_BIN/05_Save_Draw.bin",
+	"02_data/01_BIN/06_Save_Particle.bin"
 };
 
 //==========================================

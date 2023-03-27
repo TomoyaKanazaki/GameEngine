@@ -14,7 +14,7 @@
 //マクロ定義
 //==========================================================
 #define MAX_FILESTRING	(256)	//ファイルの文字最大数
-#define TEXTURE_TXTFILENAME		"data\\TXT\\texture.txt"	//テクスチャ読み込み用txtファイル
+#define TEXTURE_TXTFILENAME		"02_data\\00_TXT\\texture.txt"	//テクスチャ読み込み用txtファイル
 
 //==========================================================
 //プロトタイプ宣言
