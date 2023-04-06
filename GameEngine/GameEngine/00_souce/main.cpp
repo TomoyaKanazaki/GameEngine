@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "light.h"
 #include "texture.h"
+#include "meshfield.h"
 #include "ui.h"
 
 //==========================================
@@ -26,7 +27,7 @@ int g_nCountFPS = 0; //FPSカウンタ
 #endif //_DEBUG
 
 //--------------------------------------------------
-// 入力検知 (先輩譲渡)
+// 入力検知
 //--------------------------------------------------
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -317,6 +318,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//ライトの初期化
 	InitLight();
 
+	//メッシュフィールドの初期化
+	InitMeshField();
+
 	//UIの初期化
 	InitUi(hWnd);
 
@@ -338,6 +342,9 @@ void Uninit(void)
 
 	//ライトの終了
 	UninitLight();
+
+	//メッシュフィールドの終了
+	UninitMeshField();
 
 	//UIの終了
 	UninitUi();
@@ -375,6 +382,9 @@ void Update(void)
 	//ライトの更新
 	UpdateLight();
 
+	//メッシュフィールドの更新
+	UpdateMeshField();
+
 	//UIの更新
 	UpdateUi();
 }
@@ -400,6 +410,9 @@ void Draw(void)
 	{
 		//カメラの設定
 		SetCamera();
+
+		//メッシュフィールドの描画
+		DrawMeshField();
 
 		//UIの描画
 		DrawUi();

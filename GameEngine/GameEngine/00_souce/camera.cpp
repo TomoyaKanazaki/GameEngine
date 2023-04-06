@@ -23,7 +23,7 @@ Camera g_camera; //ƒJƒƒ‰‚Ìî•ñ
 void InitCamera()
 {
 	//Šeí•Ï”‚Ì‰Šú‰»
-	g_camera.posV = D3DXVECTOR3(0.0f, 0.0f, -1000.0f);
+	g_camera.posV = D3DXVECTOR3(0.0f, 1000.0f, -1000.0f);
 	g_camera.posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 }

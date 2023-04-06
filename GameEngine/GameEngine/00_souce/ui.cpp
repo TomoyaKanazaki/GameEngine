@@ -88,6 +88,10 @@ void CreateDrawWindow(void); //描画関連ウィンドウの生成
 void CreateParticleWindow(void); //パーティクルウィンドウの生成
 //------------------------------------------
 
+//カメラ---------------------------------------
+void CreateCameraWIndow(void); //カメラウィンドウの生成
+//------------------------------------------
+
 //==========================================
 //  グローバル変数宣言
 //==========================================
@@ -97,6 +101,8 @@ bool g_b2DUI; //2DUIエディタの有無
 bool g_bLight; //ライトエディタの有無
 bool g_bDraw; //描画関連の有無
 bool g_bParticle; //パーティクルの有無
+bool g_bCamera; //カメラの有無
+bool g_bBackGround; //背景表示の有無
 
 //==========================================
 //  初期化処理
@@ -144,6 +150,8 @@ void InitVariable()
 	g_bLight = false;
 	g_bDraw = false;
 	g_bParticle = false;
+	g_bCamera = false;
+	g_bBackGround = false;
 }
 
 //==========================================
@@ -198,8 +206,21 @@ void DrawUi()
 //==========================================
 void CreateSystemWindow()
 {
+	//ウィンドウオプションの設定
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoMove; //移動を制限
+	window_flags |= ImGuiWindowFlags_NoResize; //サイズ変更を制限
+	window_flags |= ImGuiWindowFlags_NoCollapse; //ウィンドウの表示を制限
+	if (g_bBackGround) //背景表示を設定
+	{
+		window_flags |= ImGuiWindowFlags_NoBackground;
+	}
+
 	//システムウィンドウの生成
-	ImGui::Begin(u8"SystemWindow");
+	ImGui::Begin(u8"SystemWindow", 0, window_flags);
+
+	//背景の表示
+	ImGui::Checkbox(u8"背景非表示", &g_bBackGround);
 
 	//ウィンドウ表示
 	if (ImGui::CollapsingHeader(u8"SubWindowSystem"))
@@ -223,7 +244,7 @@ void CreateSystemWindow()
 void SubWindowSystem()
 {
 	//マップエディタウィンドウの表示
-	ImGui::Checkbox(u8"マップ配置", &g_bMap);
+	ImGui::Checkbox((ImVec4(1.0f, 0.0f, 1.0f, 1.0f), u8"マップ配置"), &g_bMap);
 	if (g_bMap)
 	{
 		CreateMapWindow();
@@ -263,6 +284,13 @@ void SubWindowSystem()
 	{
 		CreateParticleWindow();
 	}
+
+	//カメラウィンドウの表示
+	ImGui::Checkbox(u8"カメラ編集", &g_bCamera);
+	if (g_bCamera)
+	{
+		CreateCameraWIndow();
+	}
 }
 
 //==========================================
@@ -288,7 +316,7 @@ void SaveSystem()
 		}
 		else
 		{
-			MessageBox(NULL, ERRORMESSAGE, "Error", MB_ICONWARNING);
+
 		}
 	}
 }
@@ -404,11 +432,25 @@ void CreateDrawWindow()
 //==========================================
 void CreateParticleWindow()
 {
-	//描画関連ウィンドウの生成
+	//パーティクルウィンドウの生成
 	ImGui::Begin(u8"ParticleWindow ( 金崎 )");
 
 	ImGui::Text(u8"金崎がパーティクルエディタを作成");
 
-	//描画関連ウィンドウの終了
+	//パーティクルウィンドウの終了
+	ImGui::End();
+}
+
+//==========================================
+//  カメラウィンドウ
+//==========================================
+void CreateCameraWIndow()
+{
+	//カメラウィンドウの生成
+	ImGui::Begin(u8"CameraWindow ( 藤田 )");
+
+	ImGui::Text(u8"藤田がカメラエディタを作成");
+
+	//カメラウィンドウの終了
 	ImGui::End();
 }

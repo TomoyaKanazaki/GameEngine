@@ -14,15 +14,11 @@
 #include "xaudio2.h"
 
 //ImGui Template
-#ifdef _DEBUG
-
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui_internal.h>
-
-#endif //_DEBUG
 
 //==========================================
 //  ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
