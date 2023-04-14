@@ -8,6 +8,7 @@
 #include "ui.h"
 #include "camera.h"
 #include "texture.h"
+#include "meshfield.h"
 
 //==========================================
 //  マクロ定義
@@ -103,6 +104,11 @@ bool g_bDraw; //描画関連の有無
 bool g_bParticle; //パーティクルの有無
 bool g_bCamera; //カメラの有無
 bool g_bBackGround; //背景表示の有無
+bool g_bWire; //ワイヤーフレームの切り替え
+bool g_bCull; //カリングモードの切り替え
+
+int g_nNum; //設定頂点指定用
+D3DXCOLOR g_col; //頂点カラー設定用
 
 //==========================================
 //  初期化処理
@@ -152,6 +158,11 @@ void InitVariable()
 	g_bParticle = false;
 	g_bCamera = false;
 	g_bBackGround = false;
+	g_bWire = false;
+	g_bCull = true;
+
+	g_nNum = 0;
+	g_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 //==========================================
@@ -190,6 +201,26 @@ void DrawUi()
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	//ワイヤーフレームを設定
+	if (g_bWire)
+	{
+		pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	}
+	else
+	{
+		pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+	//カリングモードを設定
+	if (g_bCull)
+	{
+		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	}
+	else
+	{
+		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	}
+
 	//ライティングをオフ
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -222,6 +253,12 @@ void CreateSystemWindow()
 	//背景の表示
 	ImGui::Checkbox(u8"背景非表示", &g_bBackGround);
 
+	//ワイヤーフレームの切り替え
+	ImGui::Checkbox(u8"ワイヤーフレーム", &g_bWire);
+
+	//カリングモードの切り替え
+	ImGui::Checkbox(u8"カリングモード", &g_bCull);
+
 	//ウィンドウ表示
 	if (ImGui::CollapsingHeader(u8"SubWindowSystem"))
 	{
@@ -244,7 +281,7 @@ void CreateSystemWindow()
 void SubWindowSystem()
 {
 	//マップエディタウィンドウの表示
-	ImGui::Checkbox((ImVec4(1.0f, 0.0f, 1.0f, 1.0f), u8"マップ配置"), &g_bMap);
+	ImGui::Checkbox(u8"マップ配置", &g_bMap);
 	if (g_bMap)
 	{
 		CreateMapWindow();
@@ -368,7 +405,77 @@ void MapEditterTab(void)
 //==========================================
 void MeshEditterTab()
 {
-	ImGui::Text(u8"委員長がメッシュマップエディタを作成");
+	//情報の取得
+	Mesh *meshfield = GetMeshField();
+	LPDIRECT3DVERTEXBUFFER9 pMeshFieldBuff = GetVtxData();
+
+	//頂点バッファの呼び出し
+	VERTEX_3D *pVtx;
+
+	//頂点バッファをロック
+	pMeshFieldBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//中心座標の編集
+	ImGui::DragFloat3(u8"床の中心座標", meshfield->pos);
+
+	//向きの編集
+	ImGui::SliderFloat3(u8"床の向き", meshfield->rot, -D3DX_PI, D3DX_PI);
+
+	//編集する頂点の番号を指定
+	if (ImGui::ArrowButton("##left", 0) && g_nNum > 0) //デクリメント
+	{
+		g_nNum--;
+	} ImGui::SameLine();
+
+	//スライダーで指定
+	ImGui::SliderInt(u8"頂点番号", &g_nNum, 0, meshfield->data.nNumVtx - 1); ImGui::SameLine();
+
+	if (ImGui::ArrowButton("##right", 1) && g_nNum < meshfield->data.nNumVtx - 1) //インクリメント
+	{
+		g_nNum++;
+	}
+
+	//頂点座標の編集
+	ImGui::DragFloat3(u8"頂点座標", pVtx[g_nNum].pos);
+
+	//法線ベクトルの編集
+	ImGui::DragFloat3(u8"法線ベクトル", pVtx[g_nNum].nor);
+
+	//頂点カラーの編集
+	g_col = pVtx[g_nNum].col;
+	ImGui::ColorEdit4(u8"頂点カラー", g_col);
+	pVtx[g_nNum].col = g_col;
+
+	//テクスチャ座標の編集
+	ImGui::DragFloat2(u8"テクスチャ座標", pVtx[g_nNum].tex);
+
+	//頂点バッファをアンロック
+	pMeshFieldBuff->Unlock();
+
+	//メッシュ情報の保存
+	if (ImGui::Button(u8"メッシュ情報を保存"))
+	{
+		SaveMeshField();
+	}
+
+	//分割数の編集
+	ImGui::Separator();
+	ImGui::Text(u8"分割数編集");
+
+	//分割数の変更
+	ImGui::DragInt(u8"横分割数の変更", &meshfield->data.nNumMesh_U);
+	ImGui::DragInt(u8"縦分割数の変更", &meshfield->data.nNumMesh_V);
+
+	//床のサイズの編集
+	ImGui::DragFloat2(u8"床のサイズを変更", meshfield->data.size);
+
+	//分割数を更新
+	if (ImGui::Button(u8"分割数変更"))
+	{
+		ResetMeshField();
+	}
+
+	//GetOpenFileName
 }
 
 //==========================================

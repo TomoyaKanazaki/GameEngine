@@ -148,8 +148,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdLine
 				dwExecLastTime = dwCurrentTime;
 				dwFrameCount++; //フレームカウントを加算
 
-								//更新処理
+				//更新処理
 				Update();
+
 				//描画処理
 				Draw();
 			}
