@@ -10,7 +10,10 @@
 #include "light.h"
 #include "texture.h"
 #include "meshfield.h"
+#include "model.h"
+#include "player.h"
 #include "ui.h"
+#include "input.h"
 
 //==========================================
 //  グローバル変数宣言
@@ -313,6 +316,9 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//テクスチャの初期化
 	InitTexture();
 
+	//入力デバイスの初期化
+	InitDevice(hInstance, hWnd);
+
 	//カメラの初期化
 	InitCamera();
 
@@ -320,7 +326,13 @@ HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	InitLight();
 
 	//メッシュフィールドの初期化
-	InitMeshField();
+	//InitMeshField();
+
+	//モデルの初期化
+	InitModel();
+
+	//プレイヤーの初期化
+	InitPlayer();
 
 	//UIの初期化
 	InitUi(hWnd);
@@ -346,6 +358,15 @@ void Uninit(void)
 
 	//メッシュフィールドの終了
 	UninitMeshField();
+
+	//モデルの終了
+	UninitModel();
+
+	//プレイヤーの終了
+	UninitPlayer();
+
+	//入力デバイスの終了
+	UninitDevice();
 
 	//UIの終了
 	UninitUi();
@@ -377,6 +398,9 @@ void Uninit(void)
 //==========================================
 void Update(void)
 {
+	//入力デバイスの更新
+	UpdateDevice();
+
 	//カメラの更新
 	UpdateCamera();
 
@@ -384,7 +408,10 @@ void Update(void)
 	UpdateLight();
 
 	//メッシュフィールドの更新
-	UpdateMeshField();
+	//UpdateMeshField();
+
+	//プレイヤーの更新
+	UpdatePlayer();
 
 	//UIの更新
 	UpdateUi();
@@ -413,7 +440,10 @@ void Draw(void)
 		SetCamera();
 
 		//メッシュフィールドの描画
-		DrawMeshField();
+		//DrawMeshField();
+
+		//プレイヤーの描画
+		DrawPlayer();
 
 		//UIの描画
 		DrawUi();

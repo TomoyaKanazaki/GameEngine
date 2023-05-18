@@ -42,7 +42,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -76,6 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -107,8 +109,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>03_imgui;01_header;00_souce;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,9 +159,12 @@
   <ItemGroup>
     <ClCompile Include="00_souce\camera.cpp" />
     <ClCompile Include="00_souce\fileload.cpp" />
+    <ClCompile Include="00_souce\input.cpp" />
     <ClCompile Include="00_souce\light.cpp" />
     <ClCompile Include="00_souce\main.cpp" />
     <ClCompile Include="00_souce\meshfield.cpp" />
+    <ClCompile Include="00_souce\model.cpp" />
+    <ClCompile Include="00_souce\player.cpp" />
     <ClCompile Include="00_souce\polygon.cpp" />
     <ClCompile Include="00_souce\texture.cpp" />
     <ClCompile Include="00_souce\ui.cpp" />
@@ -176,9 +182,12 @@
   <ItemGroup>
     <ClInclude Include="01_header\camera.h" />
     <ClInclude Include="01_header\fileload.h" />
+    <ClInclude Include="01_header\input.h" />
     <ClInclude Include="01_header\light.h" />
     <ClInclude Include="01_header\main.h" />
     <ClInclude Include="01_header\meshfield.h" />
+    <ClInclude Include="01_header\model.h" />
+    <ClInclude Include="01_header\player.h" />
     <ClInclude Include="01_header\polygon.h" />
     <ClInclude Include="01_header\texture.h" />
     <ClInclude Include="01_header\ui.h" />
